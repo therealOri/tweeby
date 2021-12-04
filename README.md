@@ -20,4 +20,4 @@ __ __
 <br />
 
 # Note:
-> Make sure to put your bot's @username (but without the "@") in the `tweets_blacklist.db` file so it doesn't respond to itself.
+> Make sure to put your bot's @username (but without the "@") in the `tweets_blacklist.db` file so it doesn't respond to itself. (**Case Sensitive**)
