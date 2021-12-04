@@ -48,7 +48,8 @@ Made by Ori#6338 | @therealOri_ | https://github.com/therealOri
 
 
             """
-    print(byte)
+    p = print(byte)
+    return p
 
 
 def check_mentions(api, keywords, since_id):
