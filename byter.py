@@ -33,13 +33,13 @@ def tweet(msg):
 # Do not change or remove.
 def banner():
     byte = """
-            ██████╗ ██╗   ██╗████████╗███████╗
-            ██╔══██╗╚██╗ ██╔╝╚══██╔══╝██╔════╝
-            ██████╔╝ ╚████╔╝    ██║   █████╗  
-            ██╔══██╗  ╚██╔╝     ██║   ██╔══╝  
-            ██████╔╝   ██║      ██║   ███████╗
-            ╚═════╝    ╚═╝      ╚═╝   ╚══════╝
-
+          ██████╗ ██╗   ██╗████████╗███████╗██████╗ 
+          ██╔══██╗╚██╗ ██╔╝╚══██╔══╝██╔════╝██╔══██╗
+          ██████╔╝ ╚████╔╝    ██║   █████╗  ██████╔╝
+          ██╔══██╗  ╚██╔╝     ██║   ██╔══╝  ██╔══██╗
+          ██████╔╝   ██║      ██║   ███████╗██║  ██║
+          ╚═════╝    ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝
+                                          
 Made by Ori#6338 | @therealOri_ | https://github.com/therealOri
 
                 (Connected to Twitter)
@@ -55,6 +55,7 @@ Made by Ori#6338 | @therealOri_ | https://github.com/therealOri
 def check_mentions(api, keywords, since_id):
     new_since_id = since_id
     for tweet in tweepy.Cursor(api.mentions_timeline, since_id=since_id).items():
+        time.sleep(1.5)
         new_since_id = max(tweet.id, new_since_id)
         if tweet.in_reply_to_status_id is not None:
             continue
@@ -89,15 +90,16 @@ def tag_reply(tag: str, num: int):
     num_tweet = num
 
     #fetching tweets
-    for tweet in tweepy.Cursor(api.search_tweets, q=hashtag, lang='en').items(num_tweet):
+    for tweet in tweepy.Cursor(api.search_tweets, q=f'{hashtag} -filter:retweets', lang='en', tweet_mode='extended').items(num_tweet):
+        time.sleep(1.5)
 
         #---------------Functions---------------#
         def like():
             #if tweet.user.screen_name != 'oByteBot':
             if tbl(tweet.user.screen_name) == False: # False = Not in blacklist
                 api.create_favorite(tweet.id)
-                print(f'Liked tweet: {tweet.id} from user {tweet.user.screen_name}')
-                time.sleep(3)
+                print(f'Liked tweet!  |  {tweet.id} from user {tweet.user.screen_name}')
+                time.sleep(5)
             elif tbl(tweet.user.screen_name) == True:
                 pass
             else:
@@ -106,10 +108,10 @@ def tag_reply(tag: str, num: int):
 
         def reply():
             if tbl(tweet.user.screen_name) == False:
-                message = f'Hello @{tweet.user.screen_name},\n\nThis is an automated reply! (No reply).\n\nI have detected that your tweet contains the hashtag "{tag}". If you are an artist and like to watermark your art, then please visit me on gihub! (Check my Bio). <3\n\nOpt out? (Check my Bio)'
-                api.update_status(status=message, in_reply_to_status_id=tweet.id, tweet_mode='extended')
+                message = f'Hello @{tweet.user.screen_name},\n\nThis is an automated reply! (No reply).\n\nI have detected that your tweet contains the hashtag "{tag}". If you are an artist and like to watermark your art, then please visit me on github! (Check my Bio). <3\n\nOpt-out? (Check my Bio)'
+                api.update_status(status=message, in_reply_to_status_id=tweet.id)
                 print(f'Replied to a tweet!  |  {tweet.id} from user {tweet.user.screen_name}')
-                time.sleep(3)
+                time.sleep(5)
             elif tbl(tweet.user.screen_name) == True:
                 pass
             else:
@@ -120,7 +122,7 @@ def tag_reply(tag: str, num: int):
             if tbl(tweet.user.screen_name) == False:
                 api.retweet(tweet.id)
                 print(f"Retweeted a tweet!  |  {tweet.id}")
-                time.sleep(3)
+                time.sleep(5)
             elif tbl(tweet.user.screen_name) == True:
                 pass
             else:
@@ -193,11 +195,10 @@ def main():
 
     time.sleep(3)
 
-    tags = ["#ArtistOnTwitter", "#furryart", "#Furryartist"]
+    tags = ["#ArtistOnTwitter", "#furryart", "#furryartist", "#digitalart", "#furrycommission"]
     tag = random.choice(tags)
-    print(tag)
-    tag_reply(tag, 100)
-    #time.sleep(900) #15min
+    print(f'Now searching for: {tag}\n\n')
+    tag_reply(tag, 1)
 
 
 def debug():
@@ -212,13 +213,9 @@ def debug():
 
 
 if __name__ == '__main__':
-    # Check for mentions
-    os.system('clear||cls')
-    banner()
-
     while True:
         #debug()
+        os.system('clear||cls')
+        banner()
         main()
-        time.sleep(27) #30
-
-            
+        time.sleep(900)
